@@ -14,31 +14,35 @@ datasource db {
 }
 
 model User {
-  id           String  @id @default(cuid())
-  email        String  @unique
-  username     String?
-  promots      Prompts[]
+  id       String    @id @default(cuid())
+  email    String    @unique
+  username String?
+  promots  Prompts[]
 
   @@map("users")
 }
 
 model Prompts {
-  id          String  @id @default(cuid())
-  prompt      String
-  answer      String
+  id     String @id @default(cuid())
+  prompt String
+  answer String
 
-  male        String?
-  female      String?
+  partner1 String?
+  partner2 String?
 
-  name        String?
-  background  String?
-  food        String?
-  animal      String?
-  aim         String?
-  worded      WordedEnum?
+  name       String?
+  aim        String?
+  hobby      String?
+  animal     String?
+  background String?
+  worded     WordedEnum?
 
-  userId      String
-  User        User    @relation(fields: [userId], references: [id])
+  isFav      Boolean @default(false)
+  isCombo    Boolean @default(false)
+  isUsername Boolean @default(false)
+
+  userId String
+  User   User   @relation(fields: [userId], references: [id])
 
   @@map("prompts")
 }
