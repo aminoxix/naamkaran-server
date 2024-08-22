@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Post } from '@nestjs/common';
 
 import { SharedDTO } from '../dto';
-import { FavPromptService } from './fav.prompt.service';
+import { FavPromptService } from './username.prompt.service';
 
 @Controller('prompt/favorites')
 export class FavPromptController {

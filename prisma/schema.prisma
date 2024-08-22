@@ -14,7 +14,10 @@ datasource db {
 }
 
 model User {
-  id       String    @id @default(cuid())
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
   email    String    @unique
   username String?
   promots  Prompts[]
@@ -23,12 +26,16 @@ model User {
 }
 
 model Prompts {
-  id     String @id @default(cuid())
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
   prompt String
   answer String
 
   partner1 String?
   partner2 String?
+  gender   ChildEnum?
 
   name       String?
   aim        String?
@@ -50,4 +57,9 @@ model Prompts {
 enum WordedEnum {
   ONE
   TWO
+}
+
+enum ChildEnum {
+  BOY
+  GIRL
 }

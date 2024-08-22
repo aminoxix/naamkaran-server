@@ -1,39 +1,33 @@
 import { Injectable } from '@nestjs/common';
 
-import { favPrompt } from '../../utils';
+import { comboPrompt } from '../../utils';
 import { SharedDTO } from '../dto';
 
 import { GeminiService } from 'src/gemini/gemini.service';
 import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
-export class FavPromptService {
+export class ComboPromptService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly gemini: GeminiService,
   ) {}
 
   async create({
-    aim,
-    name,
-    hobby,
-    animal,
-    background,
-    worded,
+    partner1,
+    partner2,
+    gender,
 
     userId,
-    isFav = true,
-    isCombo = false,
+    isFav = false,
+    isCombo = true,
     isUsername = false,
   }: SharedDTO) {
     try {
-      const prompt = favPrompt({
-        aim,
-        name,
-        hobby,
-        animal,
-        background,
-        worded,
+      const prompt = comboPrompt({
+        partner1,
+        partner2,
+        gender,
       });
 
       const response = await this.gemini.createChatCompletion({
@@ -48,11 +42,9 @@ export class FavPromptService {
           prompt,
           answer,
 
-          aim,
-          hobby,
-          animal,
-          background,
-          worded,
+          partner1,
+          partner2,
+          gender,
 
           isFav,
           isCombo,

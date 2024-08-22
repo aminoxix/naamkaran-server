@@ -1,7 +1,7 @@
 import { $Enums } from '@prisma/client';
 import { IsBoolean, IsOptional, IsString } from 'class-validator';
 
-export class FavDTO {
+export class SharedDTO {
   // basic prompt fields
   @IsOptional()
   id: string;
@@ -12,6 +12,9 @@ export class FavDTO {
 
   @IsOptional()
   partner2: string;
+
+  @IsOptional()
+  gender: $Enums.ChildEnum;
 
   // fav & username field
   @IsOptional()

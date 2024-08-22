@@ -1,1 +1,1 @@
-export * from './fav.dto';
+export * from './shared.dto';
