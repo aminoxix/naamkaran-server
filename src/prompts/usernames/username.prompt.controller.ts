@@ -3,7 +3,7 @@ import { Body, Controller, Get, Post } from '@nestjs/common';
 import { SharedDTO } from '../dto';
 import { UsernamePromptService } from './username.prompt.service';
 
-@Controller('prompt/username')
+@Controller('prompt/usernames')
 export class UsernamePromptController {
   constructor(private readonly favPromptService: UsernamePromptService) {}
 

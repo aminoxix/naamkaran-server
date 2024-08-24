@@ -37,10 +37,12 @@ export class ComboPromptService {
 
       const answer = response.text();
 
+      const truncatedAnswer = answer.split(' ').slice(0, 10).join(' ');
+
       await this.prisma.prompts.create({
         data: {
           prompt: [partner1, partner2, gender].join(' | '),
-          answer,
+          answer: truncatedAnswer,
 
           partner1,
           partner2,
