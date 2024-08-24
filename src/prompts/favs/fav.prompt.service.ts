@@ -49,6 +49,7 @@ export class FavPromptService {
           answer,
 
           aim,
+          name,
           hobby,
           animal,
           background,
@@ -80,6 +81,7 @@ export class FavPromptService {
   getAll({ userId }: { userId: string }) {
     return this.prisma.prompts.findMany({
       where: {
+        isFav: true,
         User: {
           id: userId,
         },

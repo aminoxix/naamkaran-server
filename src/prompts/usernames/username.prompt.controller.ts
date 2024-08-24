@@ -1,11 +1,11 @@
 import { Body, Controller, Get, Post } from '@nestjs/common';
 
 import { SharedDTO } from '../dto';
-import { FavPromptService } from './username.prompt.service';
+import { UsernamePromptService } from './username.prompt.service';
 
-@Controller('prompt/favorites')
-export class FavPromptController {
-  constructor(private readonly favPromptService: FavPromptService) {}
+@Controller('prompt/username')
+export class UsernamePromptController {
+  constructor(private readonly favPromptService: UsernamePromptService) {}
 
   @Post('create')
   create(@Body() dto: SharedDTO): Promise<{
@@ -16,7 +16,7 @@ export class FavPromptController {
   }
 
   @Get('all')
-  async getFavPrompts({ userId }: { userId: string }) {
+  async getUsernamePrompts({ userId }: { userId: string }) {
     return this.favPromptService.getAll({ userId });
   }
 }

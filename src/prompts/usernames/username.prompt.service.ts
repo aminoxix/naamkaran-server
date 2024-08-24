@@ -1,38 +1,30 @@
 import { Injectable } from '@nestjs/common';
 
-import { favPrompt } from '../../utils';
+import { usernamePrompt } from '../../utils';
 import { SharedDTO } from '../dto';
 
 import { GeminiService } from 'src/gemini/gemini.service';
 import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
-export class FavPromptService {
+export class UsernamePromptService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly gemini: GeminiService,
   ) {}
 
   async create({
-    aim,
     name,
-    hobby,
-    animal,
-    background,
     worded,
 
     userId,
-    isFav = true,
+    isFav = false,
     isCombo = false,
-    isUsername = false,
+    isUsername = true,
   }: SharedDTO) {
     try {
-      const prompt = favPrompt({
-        aim,
+      const prompt = usernamePrompt({
         name,
-        hobby,
-        animal,
-        background,
         worded,
       });
 
@@ -45,13 +37,10 @@ export class FavPromptService {
 
       await this.prisma.prompts.create({
         data: {
-          prompt,
+          prompt: [name, worded].join(' | '),
           answer,
 
-          aim,
-          hobby,
-          animal,
-          background,
+          name,
           worded,
 
           isFav,
@@ -80,6 +69,7 @@ export class FavPromptService {
   getAll({ userId }: { userId: string }) {
     return this.prisma.prompts.findMany({
       where: {
+        isUsername: true,
         User: {
           id: userId,
         },

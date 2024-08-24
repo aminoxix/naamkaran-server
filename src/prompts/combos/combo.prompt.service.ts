@@ -39,7 +39,7 @@ export class ComboPromptService {
 
       await this.prisma.prompts.create({
         data: {
-          prompt,
+          prompt: [partner1, partner2, gender].join(' | '),
           answer,
 
           partner1,
@@ -72,6 +72,7 @@ export class ComboPromptService {
   getAll({ userId }: { userId: string }) {
     return this.prisma.prompts.findMany({
       where: {
+        isCombo: true,
         User: {
           id: userId,
         },
