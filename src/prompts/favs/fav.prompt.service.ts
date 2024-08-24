@@ -45,7 +45,7 @@ export class FavPromptService {
 
       await this.prisma.prompts.create({
         data: {
-          prompt,
+          prompt: [aim, name, hobby, animal, background, worded].join(' | '),
           answer,
 
           aim,

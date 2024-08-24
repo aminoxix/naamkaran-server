@@ -9,7 +9,7 @@ generator client {
 }
 
 datasource db {
-  provider = "cockroachdb"
+  provider = "mysql"
   url      = env("DATABASE_URL")
 }
 
@@ -19,7 +19,7 @@ model User {
   updatedAt DateTime @updatedAt
 
   email    String    @unique
-  username String?
+  username String    @unique
   promots  Prompts[]
 
   @@map("users")
