@@ -54,11 +54,10 @@ export const usernamePrompt = ({
   name: string;
   worded: WordedEnum;
 }) => {
-  return `I'd like a ${worded.toLowerCase()}-word name. Here are some details about me to help create the coolest username possible. Please generate only usernames no other information.
-Follow this principle:
+  return `Please generate ${worded.toString()}-worded all the possible short form for username of name: ${name}
+For example: Anshumaan: ansmn
+
 - Fill any spaces with underscores.
 - Use all lowercase.
-
-  Name: ${name}
 `;
 };
