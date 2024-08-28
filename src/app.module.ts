@@ -15,6 +15,7 @@ import { ComboPromptModule } from './prompts/combos/combo.prompt.module';
 import { ComboPromptService } from './prompts/combos/combo.prompt.service';
 import { UsernamePromptModule } from './prompts/usernames/username.prompt.module';
 import { UsernamePromptService } from './prompts/usernames/username.prompt.service';
+import { WebhookService } from './webhook.service';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { UsernamePromptService } from './prompts/usernames/username.prompt.servi
   providers: [
     UserService,
     PrismaService,
+    WebhookService,
     FavPromptService,
     ComboPromptService,
     UsernamePromptService,

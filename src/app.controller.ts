@@ -1,14 +1,26 @@
-import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
-
 import { User } from '@clerk/backend';
-import { UserDto } from './user.dto';
-
+import {
+  Body,
+  Controller,
+  Get,
+  HttpStatus,
+  Post,
+  Req,
+  Res,
+  UseGuards,
+} from '@nestjs/common';
 import { ClerkAuthGuard } from './app.guard';
 import { UserService } from './app.service';
+import { UserDto } from './user.dto';
+
+import { WebhookService } from './webhook.service';
 
 @Controller()
 export class UserController {
-  constructor(private readonly userService: UserService) {}
+  constructor(
+    private readonly userService: UserService,
+    private readonly webhookService: WebhookService,
+  ) {}
 
   @Get()
   getHello(): string {
@@ -24,5 +36,19 @@ export class UserController {
   @UseGuards(ClerkAuthGuard)
   async getUsers() {
     return this.userService.getUsers();
+  }
+
+  @Post('api/webhooks')
+  async handleWebhook(@Req() req, @Res() res) {
+    try {
+      const evt = this.webhookService.verifyWebhook(req.body, req.headers);
+      const response = this.webhookService.processWebhookEvent(evt);
+      return res.status(HttpStatus.OK).json(response);
+    } catch (err) {
+      return res.status(HttpStatus.BAD_REQUEST).json({
+        success: false,
+        message: err.message,
+      });
+    }
   }
 }

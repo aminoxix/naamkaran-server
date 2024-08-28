@@ -1,7 +1,9 @@
 import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 
+import * as bodyParser from 'body-parser';
 import * as cookieParser from 'cookie-parser';
+
 import { AppModule } from './app.module';
 
 async function bootstrap() {
@@ -12,6 +14,11 @@ async function bootstrap() {
       whitelist: true,
     }),
   );
+
+  // Use raw body parser for the webhook endpoint
+  app.use('/api/webhooks', bodyParser.raw({ type: 'application/json' }));
+
   await app.listen(8000);
 }
+
 bootstrap();
