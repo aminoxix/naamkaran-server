@@ -1,8 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { Webhook } from 'svix';
+import { PrismaService } from './prisma/prisma.service';
 
 @Injectable()
 export class WebhookService {
+  constructor(private readonly prisma: PrismaService) {}
+
   verifyWebhook(payload: Buffer, headers: Record<string, string>): any {
     const WEBHOOK_SECRET = process.env.WEBHOOK_SECRET;
     if (!WEBHOOK_SECRET) {
@@ -36,11 +39,29 @@ export class WebhookService {
     return evt;
   }
 
-  processWebhookEvent(evt: any) {
+  async processWebhookEvent(evt: any) {
     const { id } = evt.data;
     const eventType = evt.type;
     console.log(`Webhook with an ID of ${id} and type of ${eventType}`);
     console.log('Webhook body:', evt.data);
+
+    try {
+      await this.prisma.user.create({
+        data: {
+          id,
+          email: evt.data.email_addresses[0].email_address,
+          username: evt.data.username,
+        },
+      });
+
+      console.log('User created');
+    } catch (err) {
+      console.log('Error creating user:', err.message);
+      return {
+        success: false,
+        message: 'Error creating user',
+      };
+    }
 
     return {
       success: true,
