@@ -8,4 +8,8 @@ export class ChatCompletionMessageDto {
   @IsString()
   @IsNotEmpty()
   content: string;
+
+  @IsString()
+  @IsNotEmpty()
+  userId: string;
 }

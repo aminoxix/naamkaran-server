@@ -26,6 +26,16 @@ export class FavPromptService {
     isCombo = false,
     isUsername = false,
   }: SharedDTO) {
+    const user = await this.prisma.user.findUnique({
+      where: {
+        id: userId,
+      },
+    });
+
+    if (!user) {
+      throw new Error('User not found');
+    }
+
     try {
       const prompt = favPrompt({
         aim,
@@ -37,6 +47,7 @@ export class FavPromptService {
       });
 
       const response = await this.gemini.createChatCompletion({
+        userId,
         role: 'user',
         content: prompt,
       });

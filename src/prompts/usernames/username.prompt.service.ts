@@ -23,12 +23,23 @@ export class UsernamePromptService {
     isUsername = true,
   }: SharedDTO) {
     try {
+      const user = await this.prisma.user.findUnique({
+        where: {
+          id: userId,
+        },
+      });
+
+      if (!user) {
+        throw new Error('User not found');
+      }
+
       const prompt = usernamePrompt({
         name,
         worded,
       });
 
       const response = await this.gemini.createChatCompletion({
+        userId,
         role: 'user',
         content: prompt,
       });

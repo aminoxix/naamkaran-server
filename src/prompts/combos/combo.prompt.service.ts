@@ -23,6 +23,16 @@ export class ComboPromptService {
     isCombo = true,
     isUsername = false,
   }: SharedDTO) {
+    const user = await this.prisma.user.findUnique({
+      where: {
+        id: userId,
+      },
+    });
+
+    if (!user) {
+      throw new Error('User not found');
+    }
+
     try {
       const prompt = comboPrompt({
         partner1,
@@ -31,6 +41,7 @@ export class ComboPromptService {
       });
 
       const response = await this.gemini.createChatCompletion({
+        userId,
         role: 'user',
         content: prompt,
       });
